@@ -2,20 +2,21 @@ from fastapi import FastAPI
 from setting import Config
 
 config = Config()
+
 app = FastAPI(
 	title="Api",
-	version="1.0"
+	version="0.0.0.1 beta"
 )
-config.config(app)
 
 config.addOrigin([
 	"http://localhost:5731"
 ])
 
-@app.get("/", include_in_schema=False)
-async def index():
-	return {"status": "success"}
+config.addStatic([
+	{"subpath": "/public", "dir": "public", "name": "public"}
+])
 
+config.config(app)
 
 if __name__ == "__main__":
 	import uvicorn
