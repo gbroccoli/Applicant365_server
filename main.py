@@ -9,7 +9,7 @@ app = FastAPI(
 )
 
 config.addOrigin([
-    "http://localhost:5731"
+    "http://localhost:5173"
 ])
 
 config.addStatic([
