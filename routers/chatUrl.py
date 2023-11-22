@@ -1,7 +1,12 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from pydantic import BaseModel
 from typing import List
 
 app = APIRouter()
+
+class Message(BaseModel):
+    author: str
+    content: str
 
 class ConnectionManager:
     def __init__(self):
@@ -14,21 +19,24 @@ class ConnectionManager:
     def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
 
-    async def broadcast(self, message: str):
+    async def broadcast(self, message: Message):
         for connection in self.active_connections:
-            await connection.send_text(message)
+            await connection.send_text(f"{message.author}: {message.content}")
 
 manager = ConnectionManager()
 
-@app.websocket("/chat/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+@app.websocket("/chat")
+async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.broadcast(f"Client {client_id}: {data}")
+            try:
+                json_data = Message.parse_raw(data)
+                await manager.broadcast(json_data)
+            except ValueError:
+                pass
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast(f"Client {client_id} left the chat")
 
 routers = [app]
