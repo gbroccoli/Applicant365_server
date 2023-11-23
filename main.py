@@ -1,12 +1,24 @@
 from fastapi import FastAPI
 from setting import Config
+from app.core.config import EnvVariables
+from app.core.models.ListModel import EnvMain
+
+var = EnvVariables()
+
+env = EnvMain(
+    title=var.get_value("APP_NAME"),
+    debug=bool(var.get_value("APP_DEBUG")),
+    version=str(var.get_value("APP_VERSION")),
+)
 
 config = Config()
 
+
+
 app = FastAPI(
-    title="Api",
-    version="0.0.0.1 beta",
-	debug=True
+    title=env.title,
+    version=env.version,
+    debug=env.debug
 )
 
 config.addOrigin([

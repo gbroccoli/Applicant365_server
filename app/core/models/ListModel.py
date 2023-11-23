@@ -6,3 +6,9 @@ class StaticType(NamedTuple):
     subpath: str
     dir: str
     name: str
+    
+class EnvMain(NamedTuple):
+    title: str
+    debug: bool
+    version: str
+    
