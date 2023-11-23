@@ -6,7 +6,7 @@ import os
 import sys
 
 from alembic import context
-from app.core.database import imported_models, Base
+from app.core.database import imported_models, Base, DB_CONFIG as I
 
 sys.path
 
@@ -24,7 +24,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
-config.set_main_option("sqlalchemy.url", f"{database.datebase_url()}?async_fallback=True")
+config.set_main_option("sqlalchemy.url", f"postgresql+asyncpg:/{I['USER']}:{I['PASSWORD']}@{I['HOST']}:{I['PORT']}/{I['NAME']}?async_fallback=True")
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

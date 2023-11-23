@@ -5,7 +5,8 @@ config = Config()
 
 app = FastAPI(
     title="Api",
-    version="0.0.0.1 beta"
+    version="0.0.0.1 beta",
+	debug=True
 )
 
 config.addOrigin([

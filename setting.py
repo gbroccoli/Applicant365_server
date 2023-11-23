@@ -6,6 +6,7 @@ from routers import urls
 from app.core.models.ListModel import StaticType
 
 
+# class init confif for application
 class Config:
 
     def __init__(self):
@@ -13,6 +14,7 @@ class Config:
         self.static: List[StaticType] = []
         self.urls: List = urls
 
+        # apply settings from config parameters
     def config(self, app: FastAPI):
         app.add_middleware(
             CORSMiddleware,
@@ -29,10 +31,12 @@ class Config:
         for url in self.urls:
             app.include_router(url)
 
+        # add new origin
     def addOrigin(self, origins: List[str]):
         for origin in origins:
             self.origins.append(origin)
 
+        # add new static path
     def addStatic(self, arrayStatic: List[Dict]):
         for array in arrayStatic:
             self.static.append(StaticType(subpath="{}".format(
