@@ -8,5 +8,6 @@ class EnvVariables:
     def load_variables(self):
         return dotenv_values(self.file_path)
 
-    def get_value(self, key):
-        return self.variables.get(key)
+    def get_value(self, key, default=None):
+        value = self.variables.get(key)
+        return value if value is not None and value != '' else default
