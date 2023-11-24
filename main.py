@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from setting import Config
-from app.core.config import EnvVariables
+from core.config.config import EnvVariables
 from app.core.models.ListModel import EnvMain
 
 var = EnvVariables()
@@ -18,7 +18,8 @@ config = Config()
 app = FastAPI(
     title=env.title,
     version=env.version,
-    debug=env.debug
+    debug=env.debug,
+	redoc_url=env.redoc_url
 )
 
 config.addOrigin([
