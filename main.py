@@ -11,26 +11,14 @@ env = EnvMain(
     version=str(var.get_value("APP_VERSION")),
 )
 
-config = Config()
-
-
-
 app = FastAPI(
     title=env.title,
     version=env.version,
     debug=env.debug,
 	redoc_url=env.redoc_url
 )
-
-config.addOrigin([
-    "http://localhost:5173"
-])
-
-config.addStatic([
-    {"subpath": "/public", "dir": "public", "name": "public"}
-])
-
-config.config(app)
+Config().run(app)
+# config.config(app)
 
 if __name__ == "__main__":
     import uvicorn
