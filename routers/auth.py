@@ -11,4 +11,8 @@ app = APIRouter(
 async def login():
 	pass
 
+@app.post("/gets")
+async def hash(password: str = Form(...)):
+	return PasswordManager.hash_password(password)
+
 routers = [app]
