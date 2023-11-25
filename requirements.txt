@@ -10,3 +10,4 @@ colorama
 websockets
 asyncpg
 bcrypt
+pydantic
