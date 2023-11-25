@@ -2,12 +2,6 @@
 	"origin": [
 		"http://localhost:5173"
 	],
-	"static": [
-		{
-			"subpath": "/public",
-			"dir": "public",
-			"name": "public"
-		}
-	],
+	"static": [],
 	"icon": ""
 }

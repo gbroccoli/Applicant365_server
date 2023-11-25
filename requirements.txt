@@ -9,3 +9,4 @@ click
 colorama
 websockets
 asyncpg
+bcrypt
