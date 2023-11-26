@@ -3,5 +3,7 @@
 		"http://localhost:5173"
 	],
 	"static": [],
-	"icon": ""
+	"icon": "",
+	"timezone": "UTC",
+	"language": "ru"
 }

@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+from sys import platform
+import click
+
+
+
+
+if __name__ == "__main__":
+    if platform.startswith("win"):
+        pass
+    else:
+        pass
