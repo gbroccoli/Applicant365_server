@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from setting import Config
+from core.config.app import Config
 from core.config.config import EnvVariables
-from app.core.models.ListModel import EnvMain
+from core.models.ListModel import EnvMain
 
 var = EnvVariables()
 
@@ -17,6 +17,7 @@ app = FastAPI(
     debug=env.debug,
 	redoc_url=env.redoc_url
 )
+
 Config().run(app)
 # config.config(app)
 

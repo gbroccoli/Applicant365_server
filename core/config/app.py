@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from typing import List, Dict
 from routers import urls
-from app.core.models.ListModel import StaticType
+from core.models.ListModel import StaticType
 import json
 
 try:

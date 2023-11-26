@@ -3,13 +3,13 @@ from importlib import import_module
 
 imported_models = []
 
-models_directory = "app/core/database/models"
+models_directory = "database/models"
 
 model_files = [file for file in listdir(models_directory) if file.endswith(
     ".py") and file != "__init__.py" and file != "models.py"]
 
 for model in model_files:
-    module_name = f"app.core.database.models.{model[:-3]}"
+    module_name = f"database.models.{model[:-3]}"
     module = import_module(module_name)
 
     modules_names = getattr(

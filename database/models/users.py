@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from core.config.datebase import Base
+from sqlalchemy.orm import relationship
 
 class Users(Base):
 	__tablename__ = 'users'
@@ -9,6 +10,10 @@ class Users(Base):
 	patronymic = Column(String(50), default=None)
 	login = Column(String, nullable=False)
 	passwd = Column(String(255), nullable=False)
+
+	dormitory_id =  Column(Integer, ForeignKey('dormitories.id'))
+
+	dormitory = relationship("Dormitories")
 	
 
 __all__ = ['Users']
