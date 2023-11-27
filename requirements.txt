@@ -1,4 +1,4 @@
-FastApi
+fastapi[all]
 psycopg2
 python-multipart
 uvicorn
@@ -11,3 +11,4 @@ websockets
 asyncpg
 bcrypt
 pydantic
+pytest

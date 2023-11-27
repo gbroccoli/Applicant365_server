@@ -18,6 +18,10 @@ app = FastAPI(
 	redoc_url=env.redoc_url
 )
 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
 Config().run(app)
 # config.config(app)
 
