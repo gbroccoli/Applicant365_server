@@ -7,6 +7,6 @@ router = APIRouter(
 
 @router.get("/hello", include_in_schema=False)
 async def index():
-    return {}
+    return {"pease": "hello"}
 
 routers = [router]
