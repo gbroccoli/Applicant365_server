@@ -6,9 +6,7 @@ import os
 import sys
 
 from alembic import context
-sys.path.append("../")
 from database.models import imported_models
-sys.path.append("../")
 from core.config.datebase import DB_CONFIG as I, Base
 
 # this is the Alembic Config object, which provides
