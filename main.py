@@ -2,6 +2,11 @@ from fastapi import FastAPI
 from core.config.app import Config
 from core.config.config import EnvVariables
 from core.models.ListModel import EnvMain
+import logging
+
+# Настройка логгирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 var = EnvVariables()
 

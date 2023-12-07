@@ -3,6 +3,14 @@
 from sys import platform
 import subprocess
 
+def checkOperatingSystem():
+	if platform.startswith('win'):
+		subprocess.run("cls", shell=True)
+		return "win"
+	elif platform.startswith("linux"):
+		subprocess.run("clear", shell=True)
+		return "all"
+
 try:
 	import click
 	from core.utiliset.secretgenerate import create_or_load_secret_key
@@ -15,18 +23,13 @@ try:
 	def run():
 		
 		"""
-		Команда для запуска 
+		Команда для запуска сервера
 		"""
 
-		if platform.startswith('win'):
-			subprocess.run("cls", shell=True)
-		elif platform.startswith("linux"):
-			subprocess.run("clear", shell=True)
-
-		subprocess.run([
-			"py",
-			".\main.py"
-		])
+		if checkOperatingSystem() == "win":
+			subprocess.run(["py", ".\main.py"])
+		else:
+			subprocess.run(["python3", "main.py"])
 
 	@click.group()
 	def cli():
@@ -40,7 +43,4 @@ except ModuleNotFoundError:
 
 
 if __name__ == "__main__":
-    if platform.startswith("win"):
-        cli()
-    else:
-        cli()
+    cli()

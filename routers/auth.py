@@ -3,8 +3,9 @@ from fastapi.security import OAuth2AuthorizationCodeBearer
 from core.config.hashing import PasswordManager
 from pydantic import BaseModel, Field
 from typing import Optional
-import random
-import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class User(BaseModel):
@@ -30,6 +31,7 @@ async def login():
 
 @app.post("/gets")
 async def hash(password: str = Form(...)):
+	logger.error("Creating hash from password")
 	return PasswordManager.hash_password(password)
 
 @app.post("/verify_password")
