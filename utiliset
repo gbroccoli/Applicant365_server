@@ -2,6 +2,7 @@
 
 from sys import platform
 import subprocess
+from core.utiliset.init_env import get_venv
 
 def checkOperatingSystem():
 	if platform.startswith('win'):
@@ -27,9 +28,9 @@ try:
 		"""
 
 		if checkOperatingSystem() == "win":
-			subprocess.run(["py", ".\main.py"])
+			subprocess.run("py main.py", shell=True)
 		else:
-			subprocess.run(["python3", "main.py"])
+			subprocess.run("python3 main.py", shell=True)
 
 	@click.group()
 	def cli():
@@ -39,8 +40,10 @@ try:
 	cli.add_command(secretgenerate)
 
 except ModuleNotFoundError:
-	print("Требуется виртуальное окружение")
+	cli = None
 
 
 if __name__ == "__main__":
-    cli()
+	if get_venv():
+		if cli:
+			cli()

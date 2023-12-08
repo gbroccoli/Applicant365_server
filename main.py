@@ -23,13 +23,9 @@ app = FastAPI(
 	redoc_url=env.redoc_url
 )
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
 Config().run(app)
 # config.config(app)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="localhost", port=8080, reload=True)
+    uvicorn.run("main:app", host=var.get_params_local_url()[0], port=var.get_params_local_url()[1], reload=True)
