@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from core.config.hashing import PasswordManager
 from core.config.datebase import async_session_maker
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Optional
 import logging
 from core.features.datadase import DatabaseCRUD
