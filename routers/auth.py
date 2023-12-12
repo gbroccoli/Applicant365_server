@@ -1,17 +1,20 @@
 from fastapi import APIRouter, Form
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from core.config.hashing import PasswordManager
+from core.config.datebase import async_session_maker
 from pydantic import BaseModel, Field
 from typing import Optional
 import logging
+from core.features.datadase import DatabaseCRUD
 
 logger = logging.getLogger(__name__)
 
 
-class User(BaseModel):
-	id: Optional[int] = None
+class Nominee(BaseModel):
 	surname: str
 	name: str
+	patronymic: Optional[str] = None
 	login: str
 	passwd: str
 
@@ -24,9 +27,9 @@ app = APIRouter(
 )
 
 
-@app.get("/login")
-async def login():
-	pass
+# @app.get("/login")
+# async def login(user: User, request: Request):
+# 	return user
 
 
 @app.post("/gets")
@@ -38,19 +41,28 @@ async def hash(password: str = Form(...)):
 async def verify_password(password: str = Form(...)):
 	return PasswordManager.verify_password(password, PasswordManager.hash_password(password))
 
-# @app.post("/register")
-# async def register(surname: str = Form(...), name: str = Form(...), login: str = Form(...), password: str = Form(...)):
-# 	new_id = random.randint(1, 100)
-# 	new_user = {
-# 		"id": new_id,
-# 		"surname": surname,
-# 		"name": name,
-# 		"login": login,
-# 		"password": PasswordManager.hash_password(password)
-# 	}
+@app.post("/register")
+async def register(nominee: Nominee):
 
-# 	fake_bd.append(new_user)  # Добавляем нового пользователя в список
+	if len(nominee.surname) == 0 or len(nominee.name) == 0 or len(nominee.login) == 0 or len(nominee.passwd) == 0:
+		return JSONResponse(status_code=400, content={"error" : "Часть данных нету"})
 
-# 	return fake_bd  # Возвращаем только что добавленного пользователя
+	passwd = nominee.passwd
 
+	if len(passwd) < 8:
+		return JSONResponse(status_code=400, content={"error" : "Пароль не соотвествует требованиям"})
+
+	passwd = PasswordManager.hash_password(passwd)
+
+	result = await DatabaseCRUD.selectDB(query="SELECT login FROM users WHERE login = :login", data={
+		"login" : nominee.login
+	})
+
+	if result:
+		return JSONResponse(status_code=400, content={"error" : "Данный пользователь уже существует" })
+	
+	await DatabaseCRUD.insertDB(query="INSERT INTO users (surname, name, patronymic, login, passwd) VALUES (:surname, :name, :patronymic, :login, :passwd)", data={"surname": nominee.surname,"name": nominee.name,"patronymic": nominee.patronymic,"login": nominee.login,"passwd": passwd})
+
+	return JSONResponse(status_code=201, content={"success" : "ok"})
+	
 routers = [app]

@@ -11,9 +11,9 @@ class Users(Base):
 	login = Column(String, nullable=False)
 	passwd = Column(String(255), nullable=False)
 
-	dormitory_id =  Column(Integer, ForeignKey('dormitories.id'))
+	# dormitory_id =  Column(Integer, ForeignKey('dormitories.id'))
 
-	dormitory = relationship("Dormitories")
+	# dormitory = relationship("Dormitories")
 	
 
 __all__ = ['Users']

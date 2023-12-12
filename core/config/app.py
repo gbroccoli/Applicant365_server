@@ -61,4 +61,4 @@ class Config:
 				directory=static.dir), name=static.name)
 
 		for url in self.urls:
-			app.include_router(url)
+			app.include_router(url, prefix="/api")

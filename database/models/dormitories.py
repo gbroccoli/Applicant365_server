@@ -9,4 +9,4 @@ class Dormitories(Base):
 	name = Column(String(50), nullable=False)
 	address = Column(String(150), nullable=False)
 
-__all__ = ["Dormitories"]
+# __all__ = ["Dormitories"]

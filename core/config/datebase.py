@@ -10,7 +10,7 @@ envDB = EnvVariables()
 
 DB_CONFIG: Dict[str, str | int] = {
     "HOST": envDB.get_value("DB_HOST") or "",
-    "PORT": int(envDB.get_value("DB_PORT", 5432) or 5432),
+    "PORT": int(envDB.get_value("DB_PORT", default=5432)),
     "USER": envDB.get_value("DB_USER"),
     "PASSWORD": envDB.get_value("DB_PASSWORD"),
     "NAME": str(envDB.get_value("DB_NAME")),
