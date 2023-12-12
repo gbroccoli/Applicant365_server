@@ -26,21 +26,6 @@ app = APIRouter(
 	prefix="/auth"
 )
 
-
-# @app.get("/login")
-# async def login(user: User, request: Request):
-# 	return user
-
-
-@app.post("/gets")
-async def hash(password: str = Form(...)):
-	logger.error("Creating hash from password")
-	return PasswordManager.hash_password(password)
-
-@app.post("/verify_password")
-async def verify_password(password: str = Form(...)):
-	return PasswordManager.verify_password(password, PasswordManager.hash_password(password))
-
 @app.post("/register")
 async def register(nominee: Nominee):
 
