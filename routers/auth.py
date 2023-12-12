@@ -19,13 +19,23 @@ class Nominee(BaseModel):
 	login: str
 	passwd: str
 
-
-fake_bd = []
+class User:
+	login: str
+	passwd: str
 
 app = APIRouter(
 	tags=["Auth"],
 	prefix="/auth"
 )
+
+
+@app.post("/login")
+async def login(user: User):
+	
+	if not (user.login and user.passwd):
+		return JSONResponse(status_code=400, content={"error" : "Не все обязательные данные указаны"})
+
+	
 
 @app.post("/register")
 async def register(nominee: Nominee):
