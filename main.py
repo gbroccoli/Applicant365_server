@@ -1,3 +1,5 @@
+# The code you provided is a Python script that sets up a FastAPI application and runs it using the
+# Uvicorn server.
 from fastapi import FastAPI
 from core.config.app import Config
 from core.config.config import EnvVariables
@@ -24,7 +26,6 @@ app = FastAPI(
 )
 
 Config().run(app)
-# config.config(app)
 
 if __name__ == "__main__":
     import uvicorn

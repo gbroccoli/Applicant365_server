@@ -1,3 +1,4 @@
+# The code you provided is a Python script that checks the operating system and runs different commands based on the operating system.
 #!/usr/bin/env python
 
 from sys import platform

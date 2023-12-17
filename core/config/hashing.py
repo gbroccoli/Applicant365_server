@@ -1,3 +1,5 @@
+# The PasswordManager class provides methods for hashing and verifying passwords using the bcrypt
+# algorithm.
 from .config import EnvVariables
 import bcrypt
 
