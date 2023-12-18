@@ -32,3 +32,19 @@ class DatabaseCRUD:
 		except SQLAlchemyError as e:
 			return e
 
+	@classmethod
+	async def selectDB_one(cls, *, query: str, data: dict):
+		logger = logging.getLogger(__name__)
+		try:
+			async with async_session_maker() as session:
+				querys = text(query)
+				res = await session.execute(querys, data)
+				rows = res.fetchone()
+				return rows
+		except SQLAlchemyError as e:
+			return e
+
+	
+	
+	
+

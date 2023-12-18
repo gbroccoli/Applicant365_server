@@ -12,4 +12,4 @@ asyncpg
 bcrypt
 pydantic
 pytest
-envfetch
+envdatareader

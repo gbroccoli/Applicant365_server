@@ -1,12 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from typing import Dict
-from envfetch import EnvFetch
+from .config import EnvVariables
 
 class Base(DeclarativeBase):
 	pass
 
-envDB = EnvFetch()
+envDB = EnvVariables()
 
 DB_CONFIG: Dict[str, str | int] = {
     "HOST": envDB.get_value("DB_HOST") or "",

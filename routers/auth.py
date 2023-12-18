@@ -22,6 +22,7 @@ class Nominee(BaseModel):
 class User(BaseModel):
 	login: str
 	passwd: str
+	remember: Optional[bool] = False
 
 app = APIRouter(
 	tags=["Auth"],
@@ -34,13 +35,23 @@ async def login(user: User):
 	
 	if not (user.login and user.passwd):
 		return JSONResponse(status_code=400, content={"error" : "Не все обязательные данные указаны"})
+	
+	userCVari = await DatabaseCRUD.selectDB_one(query="SELECT login, passwd FROM users WHERE login = :login", data={"login": user.login})
+
+	if not userCVari:
+		raise JSONResponse(status_code=404, content={"error": "User not found"})
+
+	login, passwd = userCVari
+
+	if not PasswordManager.verify_password(user.passwd, passwd):
+		raise (status_code=403, content={"error": "Login or password incorrect"})
+	
+
+	
+	# passwd_is_valid = PasswordManager.verify_password(user.passwd, userCVari.passwd)
 
 @app.post("/register")
 async def register(nominee: Nominee):
-
-	result = await DatabaseCRUD.selectDB(query="SELECT login FROM users WHERE login = :login", data={"login" : nominee.login})
-	if result:
-		return JSONResponse(status_code=400, content={"error" : "Данный пользователь уже существует" })
 
 	if not (nominee.surname and nominee.name and nominee.login and nominee.passwd):
 		return JSONResponse(status_code=400, content={"error" : "Не все обязательные данные указаны"})

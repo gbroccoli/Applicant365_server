@@ -1,14 +1,13 @@
 # The PasswordManager class provides methods for hashing and verifying passwords using the bcrypt
 # algorithm.
-from envfetch import EnvFetch
+from .config import EnvVariables
 import bcrypt
 
-env = EnvFetch()
+env = EnvVariables()
 
 class PasswordManager:
 	@staticmethod
 	def hash_password(password):
-		env = EnvVariables()
 		rounds = int(env.get_value('BCRYPT_ROUNDS', default=12))
 
 		salt = bcrypt.gensalt(rounds=rounds)
@@ -17,4 +16,4 @@ class PasswordManager:
 	
 	@staticmethod
 	def verify_password(input_password, hashed_password):
-		return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password)
+		return bcrypt.checkpw(input_password.encode('utf-8'), hashed_password.encode('utf-8'))
