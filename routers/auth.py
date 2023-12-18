@@ -19,7 +19,7 @@ class Nominee(BaseModel):
 	login: str
 	passwd: str
 
-class User:
+class User(BaseModel):
 	login: str
 	passwd: str
 

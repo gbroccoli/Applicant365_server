@@ -1,9 +1,9 @@
 # The PasswordManager class provides methods for hashing and verifying passwords using the bcrypt
 # algorithm.
-from .config import EnvVariables
+from envfetch import EnvFetch
 import bcrypt
 
-env = EnvVariables()
+env = EnvFetch()
 
 class PasswordManager:
 	@staticmethod
