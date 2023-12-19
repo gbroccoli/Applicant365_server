@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form
+from fastapi import APIRouter, Form, status, Response, Request, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from core.config.hashing import PasswordManager
@@ -8,9 +8,12 @@ from typing import Optional
 import logging
 from core.features.datadase import DatabaseCRUD
 from core.features.password import ValidationPassword
+from core.features.jwt import Token
+from core.config.config import EnvVariables
 
 logger = logging.getLogger(__name__)
 
+TypeZone = EnvVariables().get_value("APP_UTC")
 
 class Nominee(BaseModel):
 	surname: str
@@ -29,26 +32,33 @@ app = APIRouter(
 	prefix="/auth"
 )
 
-
 @app.post("/login")
-async def login(user: User):
-	
+async def login(user: User, response: Response, request: Request):
+
 	if not (user.login and user.passwd):
-		return JSONResponse(status_code=400, content={"error" : "Не все обязательные данные указаны"})
+		return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"error" : "Не все обязательные данные указаны"})
 	
-	userCVari = await DatabaseCRUD.selectDB_one(query="SELECT login, passwd FROM users WHERE login = :login", data={"login": user.login})
+	userCVari = await DatabaseCRUD.selectDB_one(query="SELECT id, login, passwd FROM users WHERE login = :login", data={"login": user.login})
 
 	if not userCVari:
-		raise JSONResponse(status_code=404, content={"error": "User not found"})
+		raise JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"error": "User not found"})
 
-	login, passwd = userCVari
+	id, login, passwd = userCVari
 
 	if not PasswordManager.verify_password(user.passwd, passwd):
-		raise (status_code=403, content={"error": "Login or password incorrect"})
+		return JSONResponse(status_code=status.HTTP_401_UNAUTHORIZED, content={"error": "Invalid login or password"})
 	
+	access_token = Token.create({"us": id}, user.remember)
 
-	
-	# passwd_is_valid = PasswordManager.verify_password(user.passwd, userCVari.passwd)
+	response.set_cookie(
+		key="access_token",
+		value=access_token,
+		httponly=True,
+		max_age=30*24*60*60 if user.remember else 7200,
+		expires=30*24*60*60 if user.remember else 7200		
+	)
+
+	return {"message": "Logged in successfully"}
 
 @app.post("/register")
 async def register(nominee: Nominee):

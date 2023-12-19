@@ -13,3 +13,5 @@ bcrypt
 pydantic
 pytest
 envdatareader
+python-jose
+pytz
