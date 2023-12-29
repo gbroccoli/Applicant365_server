@@ -46,6 +46,8 @@ async def login(user: User):
 	if not PasswordManager.verify_password(user.passwd, passwd):
 		raise (status_code=403, content={"error": "Login or password incorrect"})
 	
+	
+	
 
 	
 	# passwd_is_valid = PasswordManager.verify_password(user.passwd, userCVari.passwd)
