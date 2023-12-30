@@ -20,6 +20,7 @@ try:
 	@click.command()
 	def secretgenerate():
 		generate = create_or_load_secret_key()
+		click.echo("Generating secret key successfully")
 
 	@click.command()
 	def run():

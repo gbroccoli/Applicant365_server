@@ -23,7 +23,7 @@ def create_or_load_secret_key():
             for line in lines:
                 if line.startswith("APP_KEY="):
                     # Если строка начинается с "KEY=", заменить значение на сгенерированный секретный ключ
-                    env_file.write(f"APP_KEY=base64:{secret_key}\n")
+                    env_file.write(f"APP_KEY={secret_key}\n")
                 else:
                     # В противном случае, оставить строку без изменений
                     env_file.write(line)
