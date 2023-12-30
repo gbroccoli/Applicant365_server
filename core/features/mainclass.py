@@ -1,2 +1,2 @@
 class Validation:
-	pass
+    pass

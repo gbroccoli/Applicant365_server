@@ -1,51 +1,55 @@
-# The code you provided is a Python script that checks the operating system and runs different commands based on the operating system.
 #!/usr/bin/env python
+
+# The code you provided is a Python script that checks
+# the operating system and runs different commands
+# based on the operating system.
 
 from sys import platform
 import subprocess
 from core.utiliset.init_env import get_venv
 
+
 def checkOperatingSystem():
-	if platform.startswith('win'):
-		subprocess.run("cls", shell=True)
-		return "win"
-	elif platform.startswith("linux"):
-		subprocess.run("clear", shell=True)
-		return "all"
+    if platform.startswith("win"):
+        subprocess.run("cls", shell=True)
+        return "win"
+    elif platform.startswith("linux"):
+        subprocess.run("clear", shell=True)
+        return "all"
+
 
 try:
-	import click
-	from core.utiliset.secretgenerate import create_or_load_secret_key
+    import click
+    from core.utiliset.secretgenerate import create_or_load_secret_key
 
-	@click.command()
-	def secretgenerate():
-		generate = create_or_load_secret_key()
-		click.echo("Generating secret key successfully")
+    @click.command()
+    def secretgenerate():
+        create_or_load_secret_key()
+        click.echo("Generating secret key successfully")
 
-	@click.command()
-	def run():
-		
-		"""
-		Команда для запуска сервера
-		"""
+    @click.command()
+    def run():
+        """
+        Команда для запуска сервера
+        """
 
-		if checkOperatingSystem() == "win":
-			subprocess.run("py main.py", shell=True)
-		else:
-			subprocess.run("python3 main.py", shell=True)
+        if checkOperatingSystem() == "win":
+            subprocess.run("py main.py", shell=True)
+        else:
+            subprocess.run("python3 main.py", shell=True)
 
-	@click.group()
-	def cli():
-		pass
+    @click.group()
+    def cli():
+        pass
 
-	cli.add_command(run)
-	cli.add_command(secretgenerate)
+    cli.add_command(run)
+    cli.add_command(secretgenerate)
 
 except ModuleNotFoundError:
-	cli = None
+    cli = None
 
 
 if __name__ == "__main__":
-	if get_venv():
-		if cli:
-			cli()
+    if get_venv():
+        if cli:
+            cli()

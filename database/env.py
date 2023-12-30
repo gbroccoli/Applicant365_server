@@ -2,12 +2,12 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-import os
-import sys
 
 from alembic import context
 from database.models import imported_models
-from core.config.datebase import DB_CONFIG as I, Base
+from core.config.datebase import DB_CONFIG as item, Base
+
+imported_models = imported_models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,7 +23,13 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 target_metadata = Base.metadata
-config.set_main_option("sqlalchemy.url", f"postgresql+asyncpg://{I['USER']}:{I['PASSWORD']}@{I['HOST']}:{I['PORT']}/{I['NAME']}?async_fallback=True")
+config.set_main_option(
+    "sqlalchemy.url",
+    (
+        f"postgresql+asyncpg://{item['USER']}:{item['PASSWORD']}"
+        f"@{item['HOST']}:{item['PORT']}/{item['NAME']}?async_fallback=True"
+    ),
+)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -70,7 +76,8 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata
         )
 
         with context.begin_transaction():

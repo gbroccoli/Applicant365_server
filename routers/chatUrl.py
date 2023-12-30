@@ -4,9 +4,11 @@ from typing import List
 
 app = APIRouter()
 
+
 class Message(BaseModel):
     author: str
     content: str
+
 
 class ConnectionManager:
     def __init__(self):
@@ -23,7 +25,9 @@ class ConnectionManager:
         for connection in self.active_connections:
             await connection.send_text(f"{message.author}: {message.content}")
 
+
 manager = ConnectionManager()
+
 
 @app.websocket("/chat")
 async def websocket_endpoint(websocket: WebSocket):

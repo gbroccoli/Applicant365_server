@@ -3,8 +3,10 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 from typing import Dict
 from .config import EnvVariables
 
+
 class Base(DeclarativeBase):
-	pass
+    pass
+
 
 envDB = EnvVariables()
 
@@ -16,8 +18,12 @@ DB_CONFIG: Dict[str, str | int] = {
     "NAME": str(envDB.get_value("DB_NAME")),
 }
 
-DATA_URL = f"postgresql+asyncpg://{DB_CONFIG['USER']}:{DB_CONFIG['PASSWORD']}@{DB_CONFIG['HOST']}:{DB_CONFIG['PORT']}/{DB_CONFIG['NAME']}"
+DATA_URL = f"postgresql+asyncpg://{DB_CONFIG['USER']}:{DB_CONFIG['PASSWORD']}@{
+    DB_CONFIG['HOST']}:{DB_CONFIG['PORT']}/{DB_CONFIG['NAME']}"
 
 engine = create_async_engine(DATA_URL)
 
-async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_session_maker = sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False)

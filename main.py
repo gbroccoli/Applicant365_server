@@ -1,4 +1,5 @@
-# The code you provided is a Python script that sets up a FastAPI application and runs it using the
+# The code you provided is a Python script that
+# sets up a FastAPI application and runs it using the
 # Uvicorn server.
 from fastapi import FastAPI
 from core.config.app import Config
@@ -22,11 +23,16 @@ app = FastAPI(
     title=env.title,
     version=env.version,
     debug=env.debug,
-	redoc_url=env.redoc_url
-)
+    redoc_url=env.redoc_url)
 
 Config().run(app)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host=var.get_params_local_url()[0], port=var.get_params_local_url()[1], reload=True)
+
+    uvicorn.run(
+        "main:app",
+        host=var.get_params_local_url()[0],
+        port=var.get_params_local_url()[1],
+        reload=True,
+    )
